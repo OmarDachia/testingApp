@@ -15,8 +15,22 @@
         android:theme="@style/Theme.TestingApp"
         tools:targetApi="31">
         <activity
-            android:name=".home"
+            android:name=".item_movie"
             android:exported="false" />
+        <activity
+            android:name=".movie_detail"
+            android:exported="false" />
+        <activity
+            android:name=".home"
+            android:exported="true" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -27,11 +41,11 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.TestingApp">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 
