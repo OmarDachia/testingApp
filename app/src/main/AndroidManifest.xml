@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -14,11 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestingApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".home"
+            android:exported="false" />
         <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-1250364367366214~1063349046"/>
+            android:value="ca-app-pub-1250364367366214~1063349046" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
