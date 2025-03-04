@@ -3,25 +3,25 @@ package com.example.testingapp;
 public class Movie {
     private String title;
     private String description;
-    private int thumbnail;
+    private String thumbnail;
     private String studio;
     private String rating;
     private String streamingLink;
-    private int coverPhoto;
+    private String coverPhoto;
 
 
-    public Movie(String title, int thumbnail, int coverPhoto) {
+    public Movie(String title, String thumbnail, String coverPhoto) {
         this.title = title;
         this.thumbnail = thumbnail;
         this.coverPhoto = coverPhoto;
     }
 
-    public Movie(String title, int thumbnail) {
+    public Movie(String title, String thumbnail) {
         this.title = title;
         this.thumbnail = thumbnail;
     }
 
-    public Movie(String title, String description, int thumbnail, String studio, String rating, String streamingLink) {
+    public Movie(String title, String description, String thumbnail, String studio, String rating, String streamingLink) {
         this.title = title;
         this.description = description;
         this.thumbnail = thumbnail;
@@ -31,11 +31,11 @@ public class Movie {
     }
 
 
-    public int getCoverPhoto() {
+    public String getCoverPhoto() {
         return coverPhoto;
     }
 
-    public void setCoverPhoto(int coverPhoto) {
+    public void setCoverPhoto(String coverPhoto) {
         this.coverPhoto = coverPhoto;
     }
 
@@ -47,7 +47,7 @@ public class Movie {
         return description;
     }
 
-    public int getThumbnail() {
+    public String getThumbnail() {
         return thumbnail;
     }
 
@@ -72,7 +72,7 @@ public class Movie {
         this.description = description;
     }
 
-    public void setThumbnail(int thumbnail) {
+    public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
 

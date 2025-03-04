@@ -19,6 +19,7 @@
             android:exported="false" />
         <activity
             android:name=".movie_detail"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".home"

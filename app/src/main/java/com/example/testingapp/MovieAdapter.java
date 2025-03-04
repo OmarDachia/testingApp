@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder> {
@@ -44,7 +46,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
 
 
         myViewHolder.TvTitle.setText(mData.get(i).getTitle());
-        myViewHolder.ImgMovie.setImageResource(mData.get(i).getThumbnail());
+//        myViewHolder.ImgMovie.setImageResource(mData.get(i).getThumbnail());
+
+        Glide.with(context)
+                .load(mData.get(i).getThumbnail()) // Load URL
+                .placeholder(R.drawable.spidercover) // Optional: Loading placeholder
+                .error(R.drawable.spidercover) // Optional: Error image if the URL fails
+                .into(myViewHolder.ImgMovie);
 
 
     }
