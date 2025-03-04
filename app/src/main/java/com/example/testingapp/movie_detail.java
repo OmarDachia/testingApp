@@ -25,11 +25,17 @@ public class movie_detail extends AppCompatActivity {
     void iniViews() {
         play_fab = findViewById(R.id.play_fab);
         String movieTitle = getIntent().getExtras().getString("title");
-        int imageResourceId = getIntent().getExtras().getInt("imgURL");
-        int imagecover = getIntent().getExtras().getInt("imgCover");
+        String imageResourceId = getIntent().getExtras().getString("imgURL");
+        String imagecover = getIntent().getExtras().getString("imgCover");
         MovieThumbnailImg = findViewById(R.id.detail_movie_img);
         Glide.with(this).load(imageResourceId).into(MovieThumbnailImg);
-        MovieThumbnailImg.setImageResource(imageResourceId);
+//        MovieThumbnailImg.setImageResource(imageResourceId);
+//        Glide.with(this)
+//                .load(imageResourceId) // Load image from URL
+//                .placeholder(R.drawable.spidercover) // Optional: Placeholder while loading
+//                .error(R.drawable.spidercover) // Optional: Error image if URL fails
+//                .into(MovieThumbnailImg);
+
         MovieCoverImg = findViewById(R.id.detail_movie_cover);
         Glide.with(this).load(imagecover).into(MovieCoverImg);
         tv_title = findViewById(R.id.detail_movie_title);

@@ -92,6 +92,8 @@ public class home extends AppCompatActivity implements MovieItemClickListener,Sl
         // here we send movie information to detail activity
         // also we ll create the transition animation between the two activity
 
+        Toast.makeText(this, movie.getTitle(), Toast.LENGTH_LONG);
+        System.out.println(movie.getTitle());
         Intent intent = new Intent(this,movie_detail.class);
         // send movie information to deatilActivity
         intent.putExtra("title",movie.getTitle());
