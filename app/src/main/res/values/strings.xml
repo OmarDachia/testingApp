@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">testingApp</string>
+    <string name="app_name">IH Movies</string>
     <string name="action_settings">Settings</string>
 
     <string name="ad_inspector" translatable="false">Ad Inspector</string>

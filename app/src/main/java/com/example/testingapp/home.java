@@ -40,12 +40,14 @@ public class home extends AppCompatActivity implements MovieItemClickListener,Sl
     private List<Slide> lstSlides ;
     private ViewPager sliderpager;
     private TabLayout indicator;
-    private RecyclerView MoviesRV ;
+    private RecyclerView MoviesRV, MoviesRVHausa ;
     private static final String API_URL = "https://bufferedky.com.ng/movies/api/movie";
     private Handler handler = new Handler();
     private static final int INTERVAL = 5000; // 5 seconds
     private RequestQueue requestQueue;
     List<Movie> lstMovies;
+    List<MovieCat> lstMovieCategory;
+    private MovieCategoryAdapter MCAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +57,22 @@ public class home extends AppCompatActivity implements MovieItemClickListener,Sl
         sliderpager = findViewById(R.id.slider_pager) ;
         indicator = findViewById(R.id.indicator);
         MoviesRV = findViewById(R.id.Rv_movies);
+        MoviesRVHausa = findViewById(R.id.Rv_moviesHausa);
+
+
 
         requestQueue = Volley.newRequestQueue(this);
 
-//        startSync();
+//
+        lstMovieCategory = new ArrayList<>();
+        lstMovieCategory.add(new MovieCat("India Hausa",R.drawable.india_hausa));
+        lstMovieCategory.add(new MovieCat("Hausa Films",R.drawable.hausa));
+        lstMovieCategory.add(new MovieCat("Tsohuwar Ajiya",R.drawable.tsohuwar_ajiya));
+        lstMovieCategory.add(new MovieCat("Waƙoƙin Hausa",R.drawable.wakoki));
 
+        MCAdapter = new MovieCategoryAdapter(this,lstMovieCategory);
+        MoviesRVHausa.setAdapter(MCAdapter);
+        MoviesRVHausa.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         // prepare a list of slides ..
         lstSlides = new ArrayList<>() ;
 
@@ -68,22 +81,10 @@ public class home extends AppCompatActivity implements MovieItemClickListener,Sl
         timer.scheduleAtFixedRate(new home.SliderTimer(),4000,6000);
         indicator.setupWithViewPager(sliderpager,true);
 
-        // Recyclerview Setup
-        // ini data
-
         lstMovies = new ArrayList<>();
-//        lstMovies.add(new Movie("Moana",R.drawable.moana,R.drawable.spidercover));
-//        lstMovies.add(new Movie("Black P",R.drawable.blackp,R.drawable.spidercover));
-//        lstMovies.add(new Movie("The Martian",R.drawable.themartian));
-//        lstMovies.add(new Movie("The Martian",R.drawable.themartian));
-//        lstMovies.add(new Movie("The Martian",R.drawable.themartian));
-//        lstMovies.add(new Movie("The Martian",R.drawable.themartian));
-//
-//        MovieAdapter movieAdapter = new MovieAdapter(this,lstMovies,this);
-//        MoviesRV.setAdapter(movieAdapter);
-//        MoviesRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
-        fetchData();
+        startSync();
+//        fetchData();
 
     }
 
@@ -91,14 +92,12 @@ public class home extends AppCompatActivity implements MovieItemClickListener,Sl
     public void onMovieClick(Movie movie, ImageView movieImageView) {
         // here we send movie information to detail activity
         // also we ll create the transition animation between the two activity
-
-        Toast.makeText(this, movie.getTitle(), Toast.LENGTH_LONG);
-        System.out.println(movie.getTitle());
         Intent intent = new Intent(this,movie_detail.class);
         // send movie information to deatilActivity
         intent.putExtra("title",movie.getTitle());
         intent.putExtra("imgURL",movie.getThumbnail());
         intent.putExtra("imgCover",movie.getCoverPhoto());
+        intent.putExtra("video",movie.getCoverPhoto());
         // lets crezte the animation
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(home.this,
                 movieImageView,"sharedName");
@@ -143,12 +142,11 @@ public class home extends AppCompatActivity implements MovieItemClickListener,Sl
     }
 
     private void fetchData() {
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, API_URL, null,
                 response -> {
                     try {
-                        String data = response.getString("data");
+//                        String data = response.getString("data");
                         JSONArray jsonArray = response.getJSONArray("data"); // If response is an object with "data" array
                         // JSONArray jsonArray = new JSONArray(response.toString()); // If response is a raw array
 
@@ -162,26 +160,61 @@ public class home extends AppCompatActivity implements MovieItemClickListener,Sl
                             int rating = movieObj.getInt("rating");
                             int duration = movieObj.getInt("duration");
                             String thumbnail = movieObj.getString("thumbnail");
-                            String video = movieObj.getString("video");
                             String genreIds = movieObj.getString("genre_ids");
 
                             // Log or Display the Data
-                            System.out.println("Title: " + title);
-                            Toast.makeText(home.this, "Title: " + title, Toast.LENGTH_LONG).show();
+//                            System.out.println("Title: " + title);
+//                            Toast.makeText(home.this, "Title: " + title, Toast.LENGTH_LONG).show();
                             String imageUrl = "https://bufferedky.com.ng/movies/storage/" + thumbnail;
-                            // Example: Add to a list for a RecyclerView
-                            lstSlides.add(new Slide(imageUrl, title + "\n" + description));
-                            lstMovies.add(new Movie(title,imageUrl,imageUrl));
+                            String video ="https://bufferedky.com.ng/movies/storage/" + movieObj.getString("video");
+
+                            boolean slideExists = false;
+                            for (Slide slide : lstSlides) {
+                                if (slide.getImage().equals(imageUrl) && slide.getTitle().equals(title + "\n" + description)) {
+                                    slideExists = true;
+                                    break;
+                                }
+                            }
+                            if (!slideExists) {
+                                lstSlides.add(new Slide(imageUrl, title + "\n" + description));
+                            }
+
+// Check for duplicate movies
+                            boolean movieExists = false;
+                            for (Movie movie : lstMovies) {
+                                if (movie.getTitle().equals(title) && movie.getThumbnail().equals(imageUrl)) {
+                                    movieExists = true;
+                                    break;
+                                }
+                            }
+                            if (!movieExists) {
+                                lstMovies.add(new Movie(title, description, imageUrl, "", "", video));
+                            }
+
+//                            if (!lstSlides.contains(new Slide(imageUrl, title + "\n" + description))) {
+//                                lstSlides.add(new Slide(imageUrl, title + "\n" + description));
+//                            }
+//
+//                            if (!lstMovies.contains(new Movie(title, description, imageUrl, "", "", video))) {
+//                                lstMovies.add(new Movie(title, description, imageUrl, "", "", video));
+//                            }
+//                            lstSlides.add(new Slide(imageUrl, title + "\n" + description));
+//                            lstMovies.add(new Movie(title,description,imageUrl,"","",video));
                         }
 
 
 
                         MovieAdapter movieAdapter = new MovieAdapter(this,lstMovies,this);
-                        MoviesRV.setAdapter(movieAdapter);
-                        MoviesRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
-                        SliderPagerAdapter adapter = new SliderPagerAdapter(this,lstSlides,this::onSlideClick);
-                        sliderpager.setAdapter(adapter);
+                        if (lstMovies != null && !lstMovies.isEmpty()) {
+                            MoviesRV.setAdapter(movieAdapter);
+                            MoviesRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                        }
+                        if (lstSlides != null && !lstSlides.isEmpty()) {
+                            SliderPagerAdapter adapter = new SliderPagerAdapter(this,lstSlides,this::onSlideClick);
+                            sliderpager.setAdapter(adapter);
+                        }
+
 //                            textView.setText(title);
                     } catch (JSONException e) {
 

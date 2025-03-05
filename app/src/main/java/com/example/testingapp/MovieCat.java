@@ -1,35 +1,35 @@
 package com.example.testingapp;
 
-public class Movie {
+public class MovieCat {
     private String title;
     private String description;
-    private String thumbnail;
+    private int thumbnail;
     private String studio;
     private String rating;
     private String streamingLink;
     private String coverPhoto;
 
 
-    public Movie(String title, String thumbnail, String coverPhoto) {
+    public MovieCat(String title, int thumbnail, String coverPhoto) {
         this.title = title;
         this.thumbnail = thumbnail;
         this.coverPhoto = coverPhoto;
     }
 
-    public Movie(String title, String thumbnail) {
+    public MovieCat(String title, int thumbnail) {
         this.title = title;
         this.thumbnail = thumbnail;
     }
 
-    public Movie(String title, String description, String thumbnail, String studio, String rating, String streamingLink) {
-        this.title = title;
-        this.description = description;
-        this.thumbnail = thumbnail;
-        this.coverPhoto = thumbnail;
-        this.studio = studio;
-        this.rating = rating;
-        this.streamingLink = streamingLink;
-    }
+//    public MovieCat(String title, String description, int thumbnail, String studio, String rating, String streamingLink) {
+//        this.title = title;
+//        this.description = description;
+//        this.thumbnail = thumbnail;
+//        this.coverPhoto = thumbnail;
+//        this.studio = studio;
+//        this.rating = rating;
+//        this.streamingLink = streamingLink;
+//    }
 
 
     public String getCoverPhoto() {
@@ -48,7 +48,7 @@ public class Movie {
         return description;
     }
 
-    public String getThumbnail() {
+    public int getThumbnail() {
         return thumbnail;
     }
 
@@ -73,7 +73,7 @@ public class Movie {
         this.description = description;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(int thumbnail) {
         this.thumbnail = thumbnail;
     }
 
